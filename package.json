@@ -1,0 +1,28 @@
+{
+    "name": "cmajor",
+    "description": "CMajor is a RESTful API framework for NodeJS and MongoDB that makes your life easier!",
+    "version": "0.1.0",
+    "author": {
+        "name": "Timothy Peacock",
+        "email": "timothyjamespeacock@gmail.com"
+    },
+    "keywords": [
+        "restful",
+        "api",
+        "mongodb",
+        "easy",
+        "simple"
+    ],
+    "dependencies": {
+        "mongoose": "~3.8.19"
+    },
+    "main": "index.js",
+    "bugs": {
+        "url": "https://github.com/staticinteger/cmajor/issues/new",
+        "email": "timothyjamespeacock@gmail.com"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/staticinteger/cmajor.git"
+    }
+}
