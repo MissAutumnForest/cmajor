@@ -134,4 +134,6 @@ exports.get = get;
 exports.put = put;
 exports.post = post;
 exports.del = del;
+exports.response = res;
+exports.database = require("./database");
 exports.server = server;
