@@ -8,7 +8,7 @@ Coming Soon!
 
 ## Support
 
- - [bug reports](https://github.com/staticinteger/cmajor/issues/)
+ - [Bug Reports](https://github.com/staticinteger/cmajor/issues/)
  
 ## Installation
  
