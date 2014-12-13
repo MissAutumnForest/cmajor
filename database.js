@@ -2,33 +2,33 @@
 "use strict";
 
 var mongoose = require("mongoose"),
-    res = require("./response");
+res = require("./response");
 
 function login(username, password, server, database) {
-    var dbString = "mongodb://" + username + ":" + password + "@" + server + "/" + database;
-    mongoose.connect(dbString, function (error) {
-        if (error) {
-            console.log(error);
-        }
-    });
+  var dbString = "mongodb://" + username + ":" + password + "@" + server + "/" + database;
+  mongoose.connect(dbString, function (error) {
+    if (error) {
+      console.log(error);
+    }
+  });
 }
 
 function DocumentModel(name, data) {
-    return mongoose.model(name, mongoose.Schema(data));
+  return mongoose.model(name, mongoose.Schema(data));
 }
 
 function get(response, DocumentModel, query) {
-    DocumentModel.find(query, function (err, data) {
-        if (err) { console.log(err); }
-        res.json(response, data);
-    });
+  DocumentModel.find(query, function (err, data) {
+    if (err) { console.log(err); }
+    res.json(response, data);
+  });
 }
 
 function post(DocumentModel, data) {
-    var documentModel = new DocumentModel(data);
-    documentModel.save(function (err) {
-        if (err) { console.log(err); }
-    });
+  var documentModel = new DocumentModel(data);
+  documentModel.save(function (err) {
+    if (err) { console.log(err); }
+  });
 }
 
 exports.login = login;

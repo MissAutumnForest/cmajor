@@ -1,29 +1,34 @@
 {
-    "name": "cmajor",
-    "description": "CMajor is a RESTful API framework for NodeJS and MongoDB that makes your life easier!",
-    "version": "0.1.2",
-    "author": {
-        "name": "Timothy Peacock",
-        "email": "timothyjamespeacock@gmail.com"
-    },
-    "keywords": [
-        "rest",
-        "restful",
-        "api",
-        "mongodb",
-        "easy",
-        "simple"
-    ],
-    "dependencies": {
-        "mongoose": "~3.8.19"
-    },
-    "main": "index.js",
-    "bugs": {
-        "url": "https://github.com/staticinteger/cmajor/issues/new",
-        "email": "timothyjamespeacock@gmail.com"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git://github.com/staticinteger/cmajor.git"
-    }
+  "name": "cmajor",
+  "description": "CMajor is a RESTful API framework for NodeJS and MongoDB that makes your life easier!",
+  "version": "0.1.3",
+  "author": {
+    "name": "Timothy Peacock",
+    "email": "timothyjamespeacock@gmail.com"
+  },
+  "keywords": [
+    "rest",
+    "restful",
+    "api",
+    "mongodb",
+    "easy",
+    "simple"
+  ],
+  "dependencies": {
+    "mongoose": "~3.8.19"
+  },
+  "main": "index.js",
+  "bugs": {
+    "url": "https://github.com/staticinteger/cmajor/issues/new",
+    "email": "timothyjamespeacock@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/staticinteger/cmajor.git"
+  },
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-contrib-jshint": "^0.10.0",
+    "grunt-contrib-watch": "^0.6.1"
+  }
 }
