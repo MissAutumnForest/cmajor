@@ -109,7 +109,7 @@ function server(portNumber) {
         // Serve file if read successful, else respond with error 500.
         if (!err) {
           response.conType = path.extname(relPath);
-          if(response.conType != ".crt" && !response.conType != ".key"){
+          if(response.conType != ".crt" && response.conType != ".key"){
             res.file(response, file);
           }
         } else {
