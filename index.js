@@ -15,8 +15,6 @@ res    = require("./response");
 
 var eventEmitter = new events.EventEmitter();
 
-var ignoreFiles = ["", ".crt", ".key"];
-
 /*
 * ##########################################
 * # UTILITY FUNCTIONS                      #
@@ -111,9 +109,7 @@ function server(portNumber) {
         // Serve file if read successful, else respond with error 500.
         if (!err) {
           response.conType = path.extname(relPath);
-          if(!ignoreFiles.indexOf(path.extname(relPath))){
-            res.file(response, file);
-          }
+          res.file(response, file);
         } else {
           res.text(response, 500, err.toString());
         }
