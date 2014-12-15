@@ -17,8 +17,7 @@ var mimeTypes = {
 */
 function file(response, fileObject) {
 	response.writeHeader(200, {"Content-Type": mimeTypes[response.conType]});
-	response.write(fileObject, "binary");
-	response.end();
+	response.end(fileObject, "binary");
 }
 
 /*
@@ -26,8 +25,7 @@ function file(response, fileObject) {
 */
 function text(response, header, message) {
 	response.writeHeader(header, {"Content-Type": "text/plain"});
-	response.write(message);
-	response.end();
+	response.end(message);
 }
 
 /*
@@ -35,8 +33,7 @@ function text(response, header, message) {
 */
 function json(response, jsonObject) {
 	response.writeHeader(200, {"Content-Type": "application/json"});
-	response.write(JSON.stringify(jsonObject));
-	response.end();
+	response.end(JSON.stringify(jsonObject));
 }
 
 /*

@@ -7,14 +7,14 @@ module.exports = function(grunt) {
         spawn: false
       },
       scripts: {
-        files: ["*.js"],
+        files: ["**/*.js", "includes/**/*.js"],
         tasks: ["jshint"]
       },
       html: {
-        files: ['*.html']
+        files: ['app/**/*.html']
       },
       css: {
-        files: ['*.css']
+        files: ['app/**/*.css']
       }
     },
 

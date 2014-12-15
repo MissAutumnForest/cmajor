@@ -8,7 +8,10 @@ function login(username, password, server, database) {
   var dbString = "mongodb://" + username + ":" + password + "@" + server + "/" + database;
   mongoose.connect(dbString, function (error) {
     if (error) {
+      console.log("Couldn't Log Into Database: ");
       console.log(error);
+    } else {
+      console.log("Successfully Logged Into Database!");
     }
   });
 }
