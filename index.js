@@ -13,7 +13,7 @@ var http  = require("http"),
     endpoint = require("./includes/endpoint");
 
 var config = {
-  port: 8000
+  port: 80
 };
 
 /*
