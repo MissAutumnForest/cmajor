@@ -13,7 +13,8 @@ var http  = require("http"),
     endpoint = require("./includes/endpoint");
 
 var config = {
-  port: 80
+  port: 80,
+  sslPort: 443
 };
 
 /*
@@ -37,8 +38,8 @@ function secureServer() {
 
   https.createServer(options, function(request, response) {
     route.find(request, response);
-  }).listen(config.port);
-  console.log("Started HTTPS Server On " + config.port.toString());
+  }).listen(config.sslPort);
+  console.log("Started HTTPS Server On " + config.sslPort.toString());
 }
 
 /*
