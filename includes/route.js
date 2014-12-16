@@ -9,7 +9,7 @@ function base(path){
 
 // Determine whether to treat as file or endpoint.
 function find(request, response){
-  request.url = request.url === "/" ? "/index.html" : request.url;
+  request.url = request.url[request.url.length - 1] === "/" ? request.url + "index.html" : request.url;
 
   // Try to read the file from disk and server if successful.
   if (file.isFile(request)) {
