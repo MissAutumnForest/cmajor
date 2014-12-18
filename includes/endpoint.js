@@ -25,7 +25,7 @@ function get(path, callback) {
 function put(path, callback) {
   eventEmitter.on("PUT@" + route.base(path), function (request, response) {
     request.on("data", function (chunk) {
-      request.post = sutil.decodePost(chunk.toString());
+      request.post = chunk.toString();
       callback(request, response);
     });
   });
@@ -35,7 +35,7 @@ function put(path, callback) {
 function post(path, callback) {
   eventEmitter.on("POST@" + route.base(path), function (request, response) {
     request.on("data", function (chunk) {
-      request.post = sutil.decodePost(chunk.toString());
+      request.post = chunk.toString();
       callback(request, response);
     });
   });
@@ -45,7 +45,7 @@ function post(path, callback) {
 function del(path, callback) {
   eventEmitter.on("DELETE@" + route.base(path), function (request, response) {
     request.on("data", function (chunk) {
-      request.post = sutil.decodePost(chunk.toString());
+      request.post = chunk.toString();
       callback(request, response);
     });
   });
