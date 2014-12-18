@@ -20,15 +20,12 @@ function decodePost(data) {
   data = data.toString("utf8");
   data = data.replace(/\+/g, " ");
   data = decodeURIComponent(data);
-  console.log(data);
   data = data.split("&");
   data.forEach(function (dta) {
     var key = dta.substring(0, dta.indexOf("=")),
     value = dta.substring(dta.indexOf("=") + 1);
     result[key] = value;
   });
-  console.log("After Decode:");
-  console.dir(result);
   return JSON.stringify(result);
 }
 
