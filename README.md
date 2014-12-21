@@ -4,7 +4,7 @@
 [![Dependency Status](https://david-dm.org/staticinteger/cmajor.svg)](https://david-dm.org/staticinteger/cmajor)
 [![Downloads Per Month](https://img.shields.io/npm/dm/cmajor.svg)](https://npmjs.org/package/cmajor)
 
-CMajor is a RESTful API framework for [NodeJS](http://nodejs.org/) and [MongoDB](http://www.mongodb.org/) that makes your life easier!
+CMajor is a RESTful API framework for single page applications using [NodeJS](http://nodejs.org/) and [MongoDB](http://www.mongodb.org/)
 
 ## Support
 
