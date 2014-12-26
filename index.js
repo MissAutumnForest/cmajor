@@ -29,9 +29,7 @@ function server() {
 }
 
 function secureServer(options) {
-  https.createServer(options, function(request, response) {
-    route.find(request, response);
-  }).listen(config.sslPort);
+  https.createServer(options, route.find).listen(config.sslPort);
   console.log("Started HTTPS Server On " + config.sslPort.toString());
 }
 
