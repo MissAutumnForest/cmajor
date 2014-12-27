@@ -22,5 +22,15 @@ function find(request, response){
   }
 }
 
+// Redirect to secure connection.
+function redirectSecure(request, response){
+  console.log("https://" + request.headers.host + request.url);
+  response.writeHead(301, {
+    "Location": "https://" + request.headers.host + request.url
+  });
+  response.end();
+}
+
 exports.base = base;
 exports.find = find;
+exports.redirectSecure = redirectSecure;
