@@ -20,7 +20,7 @@ function push(request, response){
       response.conType = fileType(request);
       res.file(response, file);
     } else {
-      res.text(response, 500, err.toString());
+      res.text(response, 404, "404 Not Found");
     }
   });
 }

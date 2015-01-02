@@ -1,11 +1,18 @@
 var sutil        = require("./serverUtils"),
     route        = require("./route"),
     events       = require("events"),
+    file         = require("./file"),
     eventEmitter = new events.EventEmitter();
 
 function push(request, response){
   request.urlData = sutil.routeData(request);
   eventEmitter.emit(sutil.fullRequest(request), request, response);
+  
+  if(!eventEmitter.listeners(sutil.fullRequest(request))[0]){
+    request.url = "/index.html";
+    
+    file.push(request, response);
+  }
 }
 
 /*
