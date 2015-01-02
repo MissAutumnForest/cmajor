@@ -67,7 +67,7 @@ function signIn(response, DocumentModel, userData){
       var token = auth.genToken(userData.username);
 
       put(DocumentModel, {"username": userData.username}, {"token": token});
-      response.setHeader("Set-Cookie", ["authToken=" + token]);
+      response.setHeader("Set-Cookie", ["authToken=" + token + ";path=/"]);
       response.end("success");
     } else {
       response.end("Username Or Password Incorrect!");
