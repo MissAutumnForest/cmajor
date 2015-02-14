@@ -1,7 +1,7 @@
-var fs    = require("fs"),
-    path  = require("path"),
-    route = require("./route"),
-    res   = require("./response");
+var fs      = require("fs"),
+    path    = require("path"),
+    route   = require("./route"),
+    respond = require("./respond");
 
 // Get the file type of a file
 function fileType(request) {
@@ -24,10 +24,9 @@ var file = {
             "binary",
             function (err, file) {
                 if (!err) {
-                    response.conType = fileType(request);
-                    res.file(response, file);
+                    respond.file(response, file, fileType(request), 200);
                 } else {
-                    res.text(response, 404, "404 Not Found");
+                    respond.text(response, "404 Not Found", 404);
                 }
             }
         );

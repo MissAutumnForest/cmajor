@@ -1,8 +1,8 @@
 "use strict";
 
 var mongoose = require("mongoose"),
-    res = require("./response"),
-    auth = require("./auth");
+    respond  = require("./respond"),
+    auth     = require("./auth");
 
 /*#########################
 * ### UTILITY FUNCTIONS ###
@@ -46,7 +46,7 @@ function DocumentModel(name, data) {
 function get(response, DocumentModel, query) {
     DocumentModel.find(query, function (err, data) {
         if (err) { console.log(err); }
-        res.json(response, data);
+        respond.json(response, data);
     });
 }
 
