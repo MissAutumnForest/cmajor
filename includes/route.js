@@ -1,41 +1,76 @@
-var file     = require("./file"),
+var path     = require("path"),
+    url      = require("url"),
+    file     = require("./file"),
     endpoint = require("./endpoint");
 
-// Get base path of route
-function base(path) {
-    "use strict";
+var uri = {
+    relative: function (request) {
+        "use strict";
 
-    path = path[0] === "/" ? path.substring(1) : path;
-    return path[path.length - 1] === "/" ? path.substring(0, path.length - 1) : path;
-}
+        return url.parse(request.url).pathname;
+    },
+    absolute: function (request) {
+        "use strict";
 
-// Determine whether to treat as file or endpoint.
-function find(request, response) {
-    "use strict";
+        request.url = "/app" + request.url;
+        return path.join(process.cwd(), url.parse(request.url).pathname);
+    },
+    strip: function (path) {
+        "use strict";
 
-    if (request.url.indexOf("?") > -1) {
-        request.url = request.url.substring(0, request.url.indexOf("?"));
+        path = path[0] === "/" ? path.substring(1) : path;
+        path = path[-1] === "/" ? path.substring(-1) : path;
+        return path;
     }
-    request.url = request.url[request.url.length - 1] === "/" ? request.url + "index.html" : request.url;
+};
 
-    // Try to read the file from disk and server if successful.
-    if (file.isFile(request)) {
-        file.push(request, response);
-    } else {
-        endpoint.push(request, response);
+var route = {
+    //Generate Event String
+    eventString: function (request) {
+        "use strict";
+
+        return request.method + "@" + uri.strip(uri.relative(request));
+    },
+
+    /* ### Core Route Functions ### */
+    data: function (request) {
+        "use strict";
+
+        var path = uri.relative(request);
+        return decodeURI(path.substring(path.lastIndexOf("/") + 1));
+    },
+    determine: function (request, response) {
+        "use strict";
+
+        var path = request.url;
+        request.url = path[-1] === "/" ? path + "index.html" : path;
+
+        // Try to read the file from disk and server if successful.
+        if (file.isFile(request)) {
+            file.push(request, response);
+        } else {
+            endpoint.push(request, response);
+        }
+    },
+    // Re-route HTTP requests to HTTPS if using Secure Server.
+    elevate: function (request, response) {
+        "use strict";
+
+        response.writeHead(
+            301,
+            {
+                "Location": "https://" + request.headers.host + request.url
+            }
+        );
+        response.end();
     }
-}
+};
 
-// Redirect to secure connection. (HTTP to HTTPS)
-function redirectSecure(request, response) {
-    "use strict";
+exports.strip       = uri.strip;
+exports.relative    = uri.relative;
+exports.absolute    = uri.absolute;
 
-    response.writeHead(301, {
-        "Location": "https://" + request.headers.host + request.url
-    });
-    response.end();
-}
-
-exports.base = base;
-exports.find = find;
-exports.redirectSecure = redirectSecure;
+exports.eventString = route.eventString;
+exports.data        = route.data;
+exports.determine   = route.determine;
+exports.elevate     = route.elevate;

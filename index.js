@@ -24,13 +24,13 @@ var config = {
 
 // Starts the server on the specified port.
 function server() {
-    http.createServer(route.find).listen(config.port);
+    http.createServer(route.determine).listen(config.port);
     console.log("Started HTTP Server On " + config.port.toString());
 }
 
 function secureServer(options) {
     http.createServer(route.redirectSecure).listen(config.port);
-    https.createServer(options, route.find).listen(config.sslPort);
+    https.createServer(options, route.determine).listen(config.sslPort);
     console.log("Started HTTPS Server On " + config.sslPort.toString());
 }
 
