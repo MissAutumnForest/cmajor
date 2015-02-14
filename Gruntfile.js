@@ -1,32 +1,41 @@
-module.exports = function(grunt) {
-  // Project configuration.
-  grunt.initConfig({
-    watch: {
-      options: {
-        livereload: true,
-        spawn: false
-      },
-      scripts: {
-        files: ["**/*.js", "includes/**/*.js"],
-        tasks: ["jshint"]
-      },
-      html: {
-        files: ['app/**/*.html']
-      },
-      css: {
-        files: ['app/**/*.css']
-      }
-    },
+module.exports = function (grunt) {
+    "use strict";
+    // Project configuration.
+    grunt.initConfig({
+        watch: {
+            options: {
+                livereload: true,
+                spawn: false
+            },
+            scripts: {
+                files: ["Gruntfile.js", "index.js", "test.js", "includes/**/*.js"],
+                tasks: ["clear", "jslint"]
+            },
+            html: {
+                files: ["clear", 'app/**/*.html']
+            },
+            css: {
+                files: ["clear", 'app/**/*.css']
+            }
+        },
 
-    jshint: {
-      all: {
-        src: ["*.js"]
-      }
-    }
-  });
+        jslint: {
+            all: {
+                src: ["index.js", "test.js", "includes/**/*.js"],
+                directives: {
+                    node: true,
+                    stupid: true,
+                    todo: true,
+                    unparam: true,
+                    nomen: true
+                }
+            }
+        }
+    });
 
-  grunt.loadNpmTasks('grunt-contrib-jshint');
-  grunt.loadNpmTasks('grunt-contrib-watch');
+    grunt.loadNpmTasks('grunt-clear');
+    grunt.loadNpmTasks('grunt-jslint');
+    grunt.loadNpmTasks('grunt-contrib-watch');
 
-  grunt.registerTask('default', ['watch']);
+    grunt.registerTask('default', ['watch']);
 };
