@@ -23,13 +23,13 @@ $ npm install cmajor
 Getting started with CMajor is super easy! Here is how you make a simple http server which has a RESTful API GET endpoint...
 
 ```sh
-1 var app = require("cmajor");
-2
-3 app.get("/my/first/endpoint", function (request, response) {
-4    app.respond.text(response, "Hello RESTful World!", 200);
-5 });
-6
-7 app.start(false, 8080);
+var app = require("cmajor");
+
+app.get("/my/first/endpoint", function (request, response) {
+   app.respond.text(response, "Hello RESTful World!", 200);
+});
+
+app.start(false, 8080);
 ```
 
 It's as simple as that! CMajor takes care of serving files automatically so you don't have to worry about implementing that yourself! When using CMajor we put all of our client side code in a folder called "app". CMajor automatically goes to this folder when looking for a file the client has requested. This separates the server file system from the files which should be available to the client. Not only is this a way to make front-end code portable, it also protects you from anyone sniffing around your directory tree!
