@@ -58,9 +58,7 @@ var route = {
 
         response.writeHead(
             301,
-            {
-                "Location": "https://" + request.headers.host + request.url
-            }
+            { "Location": "https://" + request.headers.host + request.url }
         );
         response.end();
     }
