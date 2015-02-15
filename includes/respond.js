@@ -10,22 +10,22 @@ var mimeTypes = {
 };
 
 var respond = {
-    text: function (response, message, header) {
+    text: function (response, message, status) {
         "use strict";
 
-        response.writeHeader(header, {"Content-Type": "text/plain"});
+        response.writeHead(status, {"Content-Type": "text/plain"});
         response.end(message);
     },
-    json: function (response, json, header) {
+    json: function (response, json, status) {
         "use strict";
 
-        response.writeHeader(header, {"Content-Type": "application/json"});
+        response.writeHead(status, {"Content-Type": "application/json"});
         response.end(JSON.stringify(json));
     },
-    file: function (response, file, fileType, header) {
+    file: function (response, file, fileType, status) {
         "use strict";
 
-        response.writeHeader(header, {"Content-Type": mimeTypes[fileType]});
+        response.writeHead(status, {"Content-Type": mimeTypes[fileType]});
         response.end(file, "binary");
     }
 };
