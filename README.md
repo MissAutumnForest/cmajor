@@ -18,7 +18,7 @@ CMajor is a RESTful API framework for single page applications using [NodeJS](ht
 $ npm install cmajor
 ```
 
-## First Steps
+## Getting Started
 
 Getting started with CMajor is super easy! Here is how you make a simple http server which has a RESTful API GET endpoint...
 
