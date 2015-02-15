@@ -1,7 +1,9 @@
-var path     = require("path"),
-    url      = require("url"),
-    file     = require("./file"),
-    endpoint = require("./endpoint");
+var path         = require("path"),
+    url          = require("url"),
+    file         = require("./file"),
+    endpoint     = require("./endpoint"),
+    events       = require("events"),
+    eventEmitter = new events.EventEmitter();
 
 var uri = {
     relative: function (request) {
@@ -21,24 +23,18 @@ var uri = {
         path = path[0] === "/" ? path.substring(1) : path;
         path = path[-1] === "/" ? path.substring(-1) : path;
         return path;
-    }
-};
+    },
 
-var route = {
     //Generate Event String
     eventString: function (request) {
         "use strict";
 
         return request.method + "@" + uri.strip(uri.relative(request));
-    },
+    }
+};
 
-    /* ### Core Route Functions ### */
-    data: function (request) {
-        "use strict";
-
-        var path = uri.relative(request);
-        return decodeURI(path.substring(path.lastIndexOf("/") + 1));
-    },
+var route = {
+    // Determine whether to treat this route as a file or endpoint.
     determine: function (request, response) {
         "use strict";
 
@@ -48,10 +44,14 @@ var route = {
         // Try to read the file from disk and server if successful.
         if (file.isFile(request)) {
             file.push(request, response);
+        } else if (!eventEmitter.listeners(uri.eventString(request))[0]) {
+            request.url = "/index.html";
+            file.push(request, response);
         } else {
-            endpoint.push(request, response);
+            endpoint.push(request, response, eventEmitter);
         }
     },
+
     // Re-route HTTP requests to HTTPS if using Secure Server.
     elevate: function (request, response) {
         "use strict";
@@ -61,14 +61,33 @@ var route = {
             { "Location": "https://" + request.headers.host + request.url }
         );
         response.end();
+    },
+
+    // Setup an API Endpoint Listener for this Route.
+    listen: function (eventString, callback, hasData) {
+        "use strict";
+
+        eventEmitter.on(
+            eventString,
+            function (request, response) {
+                if (hasData) {
+                    request.on("data", function (chunk) {
+                        request.post = chunk.toString();
+                        callback(request, response);
+                    });
+                } else {
+                    callback(request, response);
+                }
+            }
+        );
     }
 };
 
 exports.strip       = uri.strip;
 exports.relative    = uri.relative;
 exports.absolute    = uri.absolute;
+exports.eventString = uri.eventString;
 
-exports.eventString = route.eventString;
-exports.data        = route.data;
 exports.determine   = route.determine;
 exports.elevate     = route.elevate;
+exports.listen      = route.listen;

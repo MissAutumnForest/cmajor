@@ -1,51 +1,25 @@
-/*jslint node: true*/
-"use strict";
+var endpoint = require("./includes/endpoint"),
+    server   = require("./includes/server"),
+    client   = require("./includes/client"),
+    respond  = require("./includes/respond"),
+    database = require("./includes/database");
 
-/*
-* ##########################################
-* # LIBRARY IMPORTS                        #
-* ##########################################
-*/
-var http  = require("http"),
-    https = require("https"),
-    route = require("./includes/route"),
-    endpoint = require("./includes/endpoint");
+// ### Access to Core Server.
+exports.start    = server.start;
 
-var config = {
-    port: 80,
-    sslPort: 443
-};
+// ### Access to REST Functions.
+exports.get      = endpoint.get;
+exports.put      = endpoint.put;
+exports.post     = endpoint.post;
+exports.delete   = endpoint.delete;
 
-/*
-* ##########################################
-* # CORE SERVER                            #
-* ##########################################
-*/
+// ### Access to Response Functions.
+exports.respond  = respond;
 
-// Starts the server on the specified port.
-function server() {
-    http.createServer(route.determine).listen(config.port);
-    console.log("Started HTTP Server On " + config.port.toString());
-}
+// ### Access to Database Functions.
+exports.database = database;
 
-function secureServer(options) {
-    http.createServer(route.redirectSecure).listen(config.port);
-    https.createServer(options, route.determine).listen(config.sslPort);
-    console.log("Started HTTPS Server On " + config.sslPort.toString());
-}
-
-/*
-* ##########################################
-* # EXPORTS                                #
-* ##########################################
-*/
-exports.config = config;
-
-exports.get = endpoint.get;
-exports.put = endpoint.put;
-exports.post = endpoint.post;
-exports.delete = endpoint.delete;
-exports.respond = require("./includes/respond");
-exports.database = require("./includes/database");
-exports.server = server;
-exports.secureServer = secureServer;
+// ### Access to Authentication Functions.
+exports.auth     = client.auth;
+exports.deauth   = client.deauth;
+exports.check    = client.check;

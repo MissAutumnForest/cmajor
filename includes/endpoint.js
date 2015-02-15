@@ -1,88 +1,49 @@
-var route        = require("./route"),
-    events       = require("events"),
-    file         = require("./file"),
-    eventEmitter = new events.EventEmitter();
+var route = require("./route");
 
-function push(request, response) {
-    "use strict";
+var endpoint = {
+    push: function (request, response, eventEmitter) {
+        "use strict";
 
-    var eventString = route.eventString(request);
+        var eventString = route.eventString(request);
+        eventEmitter.emit(eventString, request, response);
+    },
 
-    request.urlData = route.data(request);
-    eventEmitter.emit(eventString, request, response);
+    /*##################################
+    * ### ENDPOINT LISTENER CREATORS ###
+    * ##################################*/
 
-    if (!eventEmitter.listeners(eventString)[0]) {
-        request.url = "/index.html";
+    // Sets up a listener for RESTful API GET requests at a specified route.
+    get: function (path, callback) {
+        "use strict";
 
-        file.push(request, response);
+        route.listen("GET@" + route.strip(path), callback, false);
+    },
+
+    // Sets up a listener for RESTful API PUT requests at a specified route.
+    put: function (path, callback) {
+        "use strict";
+
+        route.listen("PUT@" + route.strip(path), callback, true);
+    },
+
+    // Sets up a listener for RESTful API POST requests at a specified route.
+    post: function (path, callback) {
+        "use strict";
+
+        route.listen("POST@" + route.strip(path), callback, true);
+    },
+
+    // Sets up a listener for RESTful API DELETE requests at a specified route.
+    delete: function (path, callback) {
+        "use strict";
+
+        route.listen("DELETE@" + route.strip(path), callback, true);
     }
-}
+};
 
-/*
-* ##########################################
-* # API REQUEST HANDLERS                   #
-* ##########################################
-*/
+exports.push   = endpoint.push;
 
-// Listens for RESTful API GET requests.
-function get(path, callback) {
-    "use strict";
-
-    eventEmitter.on(
-        "GET@" + route.strip(path),
-        function (request, response) {
-            callback(request, response);
-        }
-    );
-}
-
-// Listens for RESTful API PUT requests.
-function put(path, callback) {
-    "use strict";
-
-    eventEmitter.on(
-        "PUT@" + route.strip(path),
-        function (request, response) {
-            request.on("data", function (chunk) {
-                request.post = chunk.toString();
-                callback(request, response);
-            });
-        }
-    );
-}
-
-// Listens for RESTful API POST requests.
-function post(path, callback) {
-    "use strict";
-
-    eventEmitter.on(
-        "POST@" + route.strip(path),
-        function (request, response) {
-            request.on("data", function (chunk) {
-                request.post = chunk.toString();
-                callback(request, response);
-            });
-        }
-    );
-}
-
-// Listens for RESTful API DELETE requests.
-function del(path, callback) {
-    "use strict";
-
-    eventEmitter.on(
-        "DELETE@" + route.strip(path),
-        function (request, response) {
-            request.on("data", function (chunk) {
-                request.post = chunk.toString();
-                callback(request, response);
-            });
-        }
-    );
-}
-
-exports.push = push;
-exports.get = get;
-exports.put = put;
-exports.post = post;
-exports.delete = del;
+exports.get    = endpoint.get;
+exports.put    = endpoint.put;
+exports.post   = endpoint.post;
+exports.delete = endpoint.delete;

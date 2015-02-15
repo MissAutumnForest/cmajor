@@ -89,7 +89,7 @@ var client = {
         "use strict";
 
         cookie = cookies.decode(cookie);
-        var query = DocumentModel.findOne({"token": cookie.authToken});
+        var query = DocumentModel.findOne({"token": cookie.auth});
         return query.exec();
     }
 };

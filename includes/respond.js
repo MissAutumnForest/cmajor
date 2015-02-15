@@ -10,6 +10,12 @@ var mimeTypes = {
 };
 
 var respond = {
+    status: function (response, status) {
+        "use strict";
+
+        response.writeHead(status);
+        response.end();
+    },
     text: function (response, message, status) {
         "use strict";
 
@@ -33,6 +39,7 @@ var respond = {
 /*
 * Exports
 */
-exports.text = respond.text;
-exports.json = respond.json;
-exports.file = respond.file;
+exports.status = respond.status;
+exports.text   = respond.text;
+exports.json   = respond.json;
+exports.file   = respond.file;
