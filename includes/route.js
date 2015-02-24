@@ -3,7 +3,8 @@ var path         = require("path"),
     file         = require("./file"),
     endpoint     = require("./endpoint"),
     events       = require("events"),
-    eventEmitter = new events.EventEmitter();
+    eventEmitter = new events.EventEmitter(),
+    wwwPath      = "";
 
 var uri = {
     relative: function (request) {
@@ -14,7 +15,7 @@ var uri = {
     absolute: function (request) {
         "use strict";
 
-        request.url = "/app" + request.url;
+        request.url = wwwPath + request.url;
         return path.join(process.cwd(), url.parse(request.url).pathname);
     },
     strip: function (path) {
@@ -34,6 +35,11 @@ var uri = {
 };
 
 var route = {
+    // Set the www (file serve) directory
+    setWwwPath: function (path) {
+        wwwPath = path;
+    },
+
     // Determine whether to treat this route as a file or endpoint.
     determine: function (request, response) {
         "use strict";
@@ -88,6 +94,7 @@ exports.relative    = uri.relative;
 exports.absolute    = uri.absolute;
 exports.eventString = uri.eventString;
 
+exports.setWwwPath  = route.setWwwPath;
 exports.determine   = route.determine;
 exports.elevate     = route.elevate;
 exports.listen      = route.listen;

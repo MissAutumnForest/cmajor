@@ -8,8 +8,11 @@ var http  = require("http"),
 * ##########################################
 */
 var server = {
-    start: function (doEncrypt, port, options) {
+    start: function (doEncrypt, port, wwwPath, options) {
         "use strict";
+
+        // Set the file serve directory.
+        wwwPath ? route.setWwwPath(wwwPath) : "";
 
         if (doEncrypt) {
             if (options) {
