@@ -37,5 +37,8 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-jslint');
     grunt.loadNpmTasks('grunt-contrib-watch');
 
-    grunt.registerTask('default', ['watch']);
+    grunt.registerTask('default', [
+        'jslint',
+        'watch'
+    ]);
 };

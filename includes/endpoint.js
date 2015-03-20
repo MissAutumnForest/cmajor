@@ -1,5 +1,10 @@
 var route = require("./route");
 
+var getRouteVars = function (strRoute) {
+    "use strict";
+    console.log("sup");
+};
+
 var endpoint = {
     push: function (request, response, eventEmitter) {
         "use strict";
@@ -16,28 +21,34 @@ var endpoint = {
     get: function (path, callback) {
         "use strict";
 
-        route.listen("GET@" + route.strip(path), callback, false);
+        var before = function (request, response) {
+            request.vars = route.vars(request, route.strip(path));
+
+            callback(request, response);
+        };
+
+        route.listen("GET@" + route.wildify(route.strip(path)), before, false);
     },
 
     // Sets up a listener for RESTful API PUT requests at a specified route.
     put: function (path, callback) {
         "use strict";
 
-        route.listen("PUT@" + route.strip(path), callback, true);
+        route.listen("PUT@" + route.wildify(route.strip(path)), callback, true);
     },
 
     // Sets up a listener for RESTful API POST requests at a specified route.
     post: function (path, callback) {
         "use strict";
 
-        route.listen("POST@" + route.strip(path), callback, true);
+        route.listen("POST@" + route.wildify(route.strip(path)), callback, true);
     },
 
     // Sets up a listener for RESTful API DELETE requests at a specified route.
     delete: function (path, callback) {
         "use strict";
 
-        route.listen("DELETE@" + route.strip(path), callback, true);
+        route.listen("DELETE@" + route.wildify(route.strip(path)), callback, true);
     }
 };
 

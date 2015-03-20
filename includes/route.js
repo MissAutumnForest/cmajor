@@ -26,17 +26,65 @@ var uri = {
         return path;
     },
 
+    wildify: function (path) {
+        "use strict";
+
+        path = path.split("/");
+        var pathLen = path.length - 1;
+
+        while (pathLen) {
+            if (path[pathLen].indexOf(":") !== -1 || path[pathLen].indexOf("$") !== -1) {
+                path[pathLen] = "*";
+            }
+
+            pathLen -= 1;
+        }
+
+        return path.join("/");
+    },
+
     //Generate Event String
     eventString: function (request) {
         "use strict";
 
-        return request.method + "@" + uri.strip(uri.relative(request));
+        var wildPath = uri.relative(request);
+        wildPath = uri.strip(wildPath);
+        wildPath = uri.wildify(wildPath, request);
+
+        return request.method + "@" + wildPath;
+    },
+
+    vars: function (request, apiPath) {
+        "use strict";
+
+        apiPath = apiPath.split("/");
+        var vars = {},
+            reqPath = uri.relative(request),
+            len = apiPath.length - 1;
+
+        reqPath = uri.strip(reqPath);
+        reqPath = reqPath.split("/");
+
+        while (len) {
+            if (apiPath[len].indexOf(":") !== -1 && reqPath[len].indexOf("$") !== -1) {
+                apiPath[len] = apiPath[len].replace(":", "");
+                reqPath[len] = reqPath[len].replace("$", "");
+
+                vars[apiPath[len]] = reqPath[len];
+            }
+
+            len -= 1;
+        }
+
+        return vars;
     }
 };
 
 var route = {
     // Set the www (file serve) directory
     setWwwPath: function (path) {
+        "use strict";
+
         wwwPath = path;
     },
 
@@ -92,7 +140,9 @@ var route = {
 exports.strip       = uri.strip;
 exports.relative    = uri.relative;
 exports.absolute    = uri.absolute;
+exports.wildify     = uri.wildify;
 exports.eventString = uri.eventString;
+exports.vars        = uri.vars;
 
 exports.setWwwPath  = route.setWwwPath;
 exports.determine   = route.determine;

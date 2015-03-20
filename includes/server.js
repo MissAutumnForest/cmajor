@@ -2,17 +2,15 @@ var http  = require("http"),
     https = require("https"),
     route = require("./route");
 
-/*
-* ##########################################
+/*##########################################
 * # CORE SERVER                            #
-* ##########################################
-*/
+* ##########################################*/
 var server = {
     start: function (doEncrypt, port, wwwPath, options) {
         "use strict";
 
         // Set the file serve directory.
-        wwwPath ? route.setWwwPath(wwwPath) : "";
+        route.setWwwPath(wwwPath || "");
 
         if (doEncrypt) {
             if (options) {
