@@ -1,7 +1,7 @@
 {
     "name": "cmajor",
     "description": "CMajor is a RESTful API framework for single page applications using NodeJS and MongoDB",
-    "version": "0.3.1",
+    "version": "0.3.2",
     "author": {
         "name": "Timothy Peacock",
         "email": "staticinteger@gmail.com"
